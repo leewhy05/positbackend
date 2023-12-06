@@ -1,5 +1,6 @@
 const USER = require("../model/user");
 const { handleErrorUser } = require("../utils/errorhandler");
+const jwt = require("jsonwebtoken")
 
 // registration ftn
 
@@ -74,9 +75,28 @@ const logout = async (req, res) => {
   res.json({ token: "", msg: "logged out succesfuly" });
 };
 
+//loggedIn
+const loggedIn_controller = async (req, res) => {
+  try {
+    const authHeader = req.header.authorization;
+  const token = authHeader.split("")[1];
+  console.log(token);
+  if(!token){
+    return res.json(false);
+  }
+  jwt.verify(token, process.env.SECRETE);
+  res.json(true);
+    
+  } catch (error) {
+    console.log(error.message);
+    res.json(false);
+  }
+};
+
 module.exports = {
   registration,
   login,
   getUser,
   logout,
+  loggedIn_controller,
 };
