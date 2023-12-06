@@ -6,6 +6,10 @@ const { handleErrorUser } = require("../utils/errorhandler");
 const registration = async (req, res) => {
   const { name, password, email } = req.body;
   try {
+    if (!name || !password || !email) {
+      return res.status(400).json({msg:"all field are required to register"}) 
+      
+    }
     const user = await USER.create({...req.body});
     return res.status(201).json({ msg: "registration successful", user });
   } catch (error) {
