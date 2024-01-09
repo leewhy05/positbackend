@@ -20,7 +20,6 @@ const registration = async (req, res) => {
 };
 
 // login ftn
-
 const login = async (req, res) => {
   const { email, password } = req.body;
   // validation
@@ -74,29 +73,35 @@ const getUser = async (req, res) => {
 const logout = async (req, res) => {
   res.json({ token: "", msg: "logged out succesfuly" });
 };
-
-//loggedIn
-const loggedIn_controller = async (req, res) => {
+// loggedIn
+const loggedIn_controler = (req, res) => {
   try {
-    const authHeader = req.header.authorization;
-  const token = authHeader.split("")[1];
-  console.log(token);
-  if(!token){
-    return res.json(false);
-  }
-  jwt.verify(token, process.env.SECRETE);
-  res.json(true);
-    
+    // console.log(req.cookies);
+    // const token = req.cookies.token
+    const authHeader = req.headers.authorization;
+    // if(!authHeader || !authHeader.startsWith("Bearer")){
+    //   return res.status(401).json(false)
+    // }
+    const token = authHeader.split(" ")[1];
+    console.log(token);
+    // console.log(token);
+
+    if (!token) {
+      return res.json(false);
+    }
+
+    jwt.verify(token, process.env.JWT_SECRETE);
+    res.json(true);
   } catch (error) {
     console.log(error.message);
     res.json(false);
-  }
-};
+  } 
+}; 
 
 module.exports = {
   registration,
   login,
   getUser,
   logout,
-  loggedIn_controller,
+  loggedIn_controler,
 };

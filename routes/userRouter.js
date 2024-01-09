@@ -1,5 +1,5 @@
 const express = require('express');
-const { registration, login, getUser, logout, loggedIn_controller } = require('../controller/userController');
+const { registration, login, getUser, logout, loggedIn_controler } = require('../controller/userController');
 const router = express.Router();
 const auth = require('../middleware/auth')
 
@@ -11,6 +11,6 @@ router.post('/register',registration);
 router.post('/login',login);
 router.get('/user',auth, getUser);
 router.post('/logout',logout)
-router.get('/isLoggedIn', loggedIn_controller)
+router.get('/isLoggedIn', loggedIn_controler)
 
 module.exports = router
