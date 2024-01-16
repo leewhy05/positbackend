@@ -46,7 +46,7 @@ const singlePost = async (req,res) => {
 
 // get all post by a user
 const getUserPosts = async (req, res) => {
-    const { userId } = req.params;
+    const { userId } = req.user;
     try {
         const post = await POSTS.find({createdBy:userId}).populate('createdBy');
         res.status(200).json({msg:'user post',post})
